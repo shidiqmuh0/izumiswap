@@ -127,7 +127,7 @@ class Etherscan():
 class Izumi():
 
     def __init__(self, coin_from, coin_to, amount, account_key, scan_key='', splipage=0.005):
-        self.web3: Web3 = Web3(Web3.HTTPProvider('https://mainnet.era.zksync.io'))
+        self.web3: Web3 = Web3(Web3.HTTPProvider('https://rpc.taiko.xyz'))
         self.coin_from = coin_from
         self.coin_to = coin_to
         self.amount = amount
@@ -177,13 +177,13 @@ class Izumi():
         utils = MyEtherUtils(self.web3)
 
         coin_map = {
-            'eth': '0x5aea5775959fbc2557cc8789bc1bf90a239d9a91',
-            'usdc': '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4',
+            'eth': '0xA51894664A773981C6C112C43ce576f315d5b1B6',
+            'usdc': '0x07d83526730c7438048D55A4fc0b850e2aaB6f0b',
             'usdt': '0x496d88D1EFc3E145b7c12d53B78Ce5E7eda7a42c' # slusdt
         }
 
-        swap_contract_address               = '0x943ac2310D9BC703d6AB5e5e76876e212100f894'
-        router_contract_address             = '0x6C31035D62541ceba2Ac587ea09891d1645D6D07'
+        swap_contract_address               = '0x04830cfCED9772b8ACbAF76Cfc7A630Ad82c9148'
+        router_contract_address             = '0x310fD2d1cF90ACDc7462c145BaC35e579021a1Bf'
 
         izumi_contract = self.web3.eth.contract(
             address=Web3.to_checksum_address(swap_contract_address),
@@ -240,7 +240,7 @@ class Izumi():
                                 spender=swap_contract_address,
                                 )
         decimal_map = {
-            'usdc': 5,
+            'usdc': 6,
             'usdt': 18
         }
         not_eth_coin = self.coin_to if self.coin_from == 'eth' else self.coin_from
@@ -292,7 +292,7 @@ class Izumi():
         signed_tx = account.signTransaction(tx)
         raw_tx_hash = self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
         tx_hash = self.web3.to_hex(raw_tx_hash)
-        self.log(f'Swapped success！ | TX: https://explorer.zksync.io/tx/{tx_hash}')
+        self.log(f'Swapped success！ | TX: https://taikoscan.io/tx/{tx_hash}')
 
 
 if __name__ == "__main__":
